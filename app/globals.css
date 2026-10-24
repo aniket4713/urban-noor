@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Brand palette (also defined in tailwind.config.ts) */
+:root {
+  --gold: #a8761a;
+  --gold-light: #e8b04a;
+  --magenta: #c2186b;
+  --royal: #7b2fbe;
+  --cream: #fff8f3;
+  --plum: #2b1238;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-noir text-ivory font-sans antialiased;
+    /* soft colour washes behind the whole site */
+    background-image:
+      radial-gradient(60rem 40rem at 110% -10%, rgba(194, 24, 107, 0.07), transparent 60%),
+      radial-gradient(50rem 40rem at -10% 20%, rgba(123, 47, 190, 0.07), transparent 60%),
+      radial-gradient(40rem 30rem at 50% 110%, rgba(232, 176, 74, 0.08), transparent 60%);
+    background-attachment: fixed;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display tracking-wide text-ivory;
+  }
+  ::selection {
+    background: var(--magenta);
+    color: #fff;
+  }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: #f6eef4; }
+  ::-webkit-scrollbar-thumb { background: linear-gradient(var(--magenta), var(--royal)); border-radius: 8px; }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Shimmering gold → magenta → purple text (logo, hero words) */
+  .gold-text {
+    background: linear-gradient(110deg, #a8761a 0%, #e8b04a 15%, #c2186b 35%, #7b2fbe 50%, #c2186b 65%, #e8b04a 85%, #a8761a 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    @apply animate-shimmer;
+  }
+  /* Static brand gradient text */
+  .brand-text {
+    background: linear-gradient(120deg, #c2186b, #7b2fbe);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-[0.35em] text-magenta;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium tracking-wide transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  /* Primary button: animated magenta → purple gradient (name kept for compatibility) */
+  .btn-gold {
+    @apply btn bg-brand text-white shadow-soft hover:shadow-glow active:scale-[0.98];
+    background-size: 200% 200%;
+    background-position: 0% 50%;
+  }
+  .btn-gold:hover {
+    background-position: 100% 50%;
+  }
+  .btn-outline {
+    @apply btn border border-royal/40 bg-noir-800/70 text-royal backdrop-blur hover:border-transparent hover:bg-brand hover:text-white hover:shadow-glow;
+  }
+  .btn-ghost {
+    @apply btn text-ivory/70 hover:text-magenta;
+  }
+  .btn-dark {
+    @apply btn bg-ivory text-white hover:bg-ivory-300;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-ivory/15 bg-noir-800 px-4 py-3 text-sm text-ivory placeholder:text-ivory/35 shadow-sm outline-none transition focus:border-magenta/60 focus:ring-4 focus:ring-magenta/10;
+  }
+  .label {
+    @apply mb-1.5 block text-xs font-semibold uppercase tracking-wider text-ivory/55;
+  }
+  .field-error {
+    @apply mt-1 text-xs text-red-600;
+  }
+
+  .card {
+    @apply rounded-2xl border border-ivory/[0.07] bg-noir-800 shadow-soft;
+  }
+
+  .divider-gold {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-magenta/40 to-transparent;
+  }
+
+  /* Light sweep across product images on hover */
+  .shine {
+    position: relative;
+    overflow: hidden;
+  }
+  .shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.55) 48%, transparent 66%);
+    transform: translateX(-120%);
+    transition: transform 0.9s ease;
+    pointer-events: none;
+  }
+  .group:hover .shine::after {
+    transform: translateX(120%);
+  }
+
+  .skeleton {
+    @apply animate-pulse rounded-xl bg-noir-600;
+  }
+
+  .admin-input {
+    @apply w-full rounded-lg border border-ivory/15 bg-noir-800 px-3 py-2 text-sm text-ivory outline-none focus:border-magenta/60 focus:ring-2 focus:ring-magenta/10;
+  }
+
+  .prose-policy h2 { @apply mt-8 mb-3 text-2xl text-royal; }
+  .prose-policy p, .prose-policy li { @apply leading-relaxed text-ivory/75; }
+  .prose-policy ul { @apply ml-5 list-disc space-y-1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
